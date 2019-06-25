@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/plantillas/plantillaComun.xhtml">
+
+        <ui:define name="tituloPagina">
+            <h3> Prescripciones </h3>
+        </ui:define>
+
+
+
+        <ui:define name="contenido">
+            <h:form id="formularioListadoPrescripciones">     
+                <b:container fluid="true">
+                    <b:panel title="Listado de Prescripciones" collapsible="false">
+                        <b:dataTable id="tablaListadoPrescripciones"  class="tablaListadoClass"
+                                     value="#{prescripsFarmaciaControlador.prescrips}"
+                                     var="prescrip" 
+                                     page-length="5" page-length-menu="[5,10,20]">
+                            <b:dataTableColumn label="Id">
+                                <h:outputText value="#{prescrip.id}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Tarjeta Sanitaria">
+                                <h:outputText value="#{prescrip.paciente.numeroTarjetaSanitaria}" />
+                            </b:dataTableColumn>                    
+
+                            <b:dataTableColumn label="Medico" orderable="false">
+                                <h:outputText value="#{prescrip.medico.nombre}" />
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn label="Medicamento">
+                                <h:outputText value="#{prescrip.medicamento.nombre}" />
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn label="Fecha Inicio" orderable="false">
+                                <h:outputText value="#{prescrip.fechaInicio}" />
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn label="Fecha Fin" orderable="false">
+                                <h:outputText value="#{prescrip.fechaFin}" />
+                            </b:dataTableColumn>
+                            
+                            <b:dataTableColumn label="" orderable="false">
+                                <b:commandButton id="botonVerRecetas" icon-awesome="eye" tooltip="Ver" ajax="true"  
+                                                 action="#{prescripsFarmaciaControlador.verRecetas(prescrip)}"/>                                                 
+                            </b:dataTableColumn>                            
+                        </b:dataTable>
+                    </b:panel>
+                </b:container>
+            </h:form>         
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

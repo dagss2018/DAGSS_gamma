@@ -51,6 +51,11 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
         q.setParameter("patron","%"+localidad+"%");        
         return q.getResultList();
     }
-
-    // Completar aqui
+    
+    public Paciente buscarPorIdentificador(String id) {
+        TypedQuery<Paciente> q = em.createQuery("SELECT p FROM Paciente AS p "
+                                              + "  WHERE p.id = :id", Paciente.class);
+        q.setParameter("id", id);
+        return filtrarResultadoUnico(q);
+    }   
 }

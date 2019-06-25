@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition>
+        <h:form id="formularioCambiarEstado">
+            <b:modal id="modalCambiar" class="modal-ver-class" title="Editar Receta 'manual'">
+                <b:panel title="Editar Estado de la Receta con el ID. #{prescripsFarmaciaControlador.receta.id}" 
+                         rendered="#{not empty prescripsFarmaciaControlador.receta}"
+                         collapsible="false">
+                    <h:outputLabel value="Estado" for="estado"/>
+                    <b:selectOneMenu value="#{prescripsFarmaciaControlador.estadoReceta}" >
+                        <f:selectItems var="itemEstado" value="#{prescripsFarmaciaControlador.estadosRecetas}" 
+                                       itemValue="#{itemEstado}" itemLabel="#{itemEstado}"/>
+                    </b:selectOneMenu>
+                </b:panel>
+                <f:facet name="footer">
+                    <b:commandButton value="Guardar" 
+                                     ajax="true" process="@form" update=":formularioListadoRecetas:tablaListadoRecetas :mensajesGlobal" 
+                                     actionListener="#{prescripsFarmaciaControlador.doGuardarEstado()}"  
+                                     oncomplete="$('.modal-editar-class').modal('hide')"/>
+                    <b:button value="Cerrar" dismiss="modal"/>
+                </f:facet>
+            </b:modal>
+        </h:form>
+    </ui:composition>
+</html>

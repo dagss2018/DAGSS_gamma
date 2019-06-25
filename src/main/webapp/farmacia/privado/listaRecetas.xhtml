@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/plantillas/plantillaComun.xhtml">
+
+        <ui:define name="tituloPagina">
+            <h3> Recetas de la prescripcion: #{prescripsFarmaciaControlador.prescripcion.id}</h3>
+        </ui:define>
+
+
+
+        <ui:define name="contenido">
+            <h:form id="formularioListadoRecetas">     
+                <b:container fluid="true">
+                    <b:panel title="Listado de Recetas" collapsible="false">
+                        <b:dataTable id="tablaListadoRecetas" class="tablaListadoClass"
+                                     value="#{prescripsFarmaciaControlador.recetas}"
+                                     var="rec"                            
+                                     page-length="5" page-length-menu="[5,10,20]">                     
+                            <b:dataTableColumn label="Id">
+                                <h:outputText value="#{rec.id}"/>
+                            </b:dataTableColumn>
+
+                            <b:dataTableColumn label="Cantidad">
+                                <h:outputText value="#{rec.cantidad}" />
+                            </b:dataTableColumn> 
+                            <b:dataTableColumn label="Inicio">
+                                <h:outputText  value="#{rec.inicioValidez}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
+                                </h:outputText>
+                            </b:dataTableColumn>  
+                            <b:dataTableColumn label="Fin">
+                                <h:outputText value="#{rec.finValidez}">
+                                   <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Estado">
+                                <h:outputText value="#{rec.estadoReceta}" />
+                            </b:dataTableColumn>  
+                            <b:dataTableColumn label="Farmacia Dispensadora" orderable="false">
+                                <h:outputText value="#{rec.farmaciaDispensadora.nombreFarmacia}" />
+                            </b:dataTableColumn> 
+                            <b:dataTableColumn label="" orderable="false">                               
+                                <b:commandButton id="botonCambiarEstado" icon-awesome="pencil" tooltip="Cambiar estado" ajax="true"  
+                                                 actionListener="#{prescripsFarmaciaControlador.doModificarEstado(rec)}" 
+                                                 update=":formularioCambiarEstado:modalCambiar"
+                                                 oncomplete="$('.modal-ver-class').modal('show')" />                  
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:panel>
+                </b:container> 
+            </h:form>   
+            <ui:include src="modalCambioEstado.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
+
